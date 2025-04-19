@@ -7,7 +7,7 @@ infer:
   checkpoint_type: best
   checkpoint_monitor: val_loss_epoch
   checkpoint_mode: min
-  results_dir: results/pdbs/107l
+  results_dir: results/pdbs/8G4S
   keys_to_save:
     - all_atom_coords
     - structure
@@ -22,4 +22,4 @@ infer:
     - loss
 
 data:
-  pdb_path: examples/pdbs/107l.pdb
+  pdb_path: files/8G4S.pdb
