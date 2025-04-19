@@ -1,3 +1,4 @@
+# Import libraries
 import os
 import json
 import urllib.request
@@ -31,9 +32,11 @@ def parse_json(n, max_len=150):
     f.close()
     return seqs
 
+# Retrieve PDB files from RCSB
 def download_file(pdb_id):
     urllib.request.urlretrieve(f'http://files.rcsb.org/download/{pdb_id}.cif', f'files/{pdb_id}.pdb')
 
+# Download PDB file for each sequence
 def download_rna3db(num):
     seqs = parse_json(num)
     os.makedirs("files", exist_ok=True)
@@ -53,6 +56,8 @@ def download_rna3db(num):
 
 if __name__=='__main__':
     seqs = download_rna3db(2)
+
+    # Edit test_pdb.yaml file for correct filenames and directories
     rep1 = re.compile('results_dir: results/pdbs/.*')
     rep2 = re.compile('pdb_path: files/.*.pdb')
     for i, (pdb_id, seq) in enumerate(seqs.items()):
@@ -65,4 +70,8 @@ if __name__=='__main__':
             f.write(data)
             f.truncate()
         
+        # Run bio2token for each pdb file
         os.system('uv run scripts/test_pdb.py --config test_pdb.yaml')
+
+        # Uncharted territory!
+        # Next step is to figure out the structure of bio2token output files so I can condense it into a csv/dict with PDB ID and sequence
