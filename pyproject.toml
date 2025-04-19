@@ -25,6 +25,7 @@ dependencies = [
     "python-box>=7.3.2",
     "loguru>=0.7.3",
     "mmtf-python>=1.1.3",
+    "biopython",
 ]
 
 [tool.uv]

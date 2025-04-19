@@ -3,6 +3,7 @@ import os
 import json
 import urllib.request
 import re
+from Bio.PDB import PDBParser, PDBIO, MMCIFParser
 
 # Parse RNA3db Sequences file tree
 def parse_json(n, max_len=150):
@@ -48,11 +49,25 @@ def download_rna3db(num):
         if not os._exists(f"./files/{id}.pdb"):
             try:
                 download_file(id)
+                convert_cif_to_pdb(f'files/{id}.pdb')
                 count += 1
             except:
                 continue
     print(f"Downloaded {count} PDB files.")
     return seqs
+
+# Convert downloaded CIF files to PDB format
+def convert_cif_to_pdb(filename):
+    try:
+        parser = MMCIFParser()
+        structure = parser.get_structure("structure_id", filename)
+    except Exception as e:
+         parser = PDBParser()
+         structure = parser.get_structure("structure_id", filename)
+
+    io = PDBIO()
+    io.set_structure(structure)
+    io.save(filename)
 
 if __name__=='__main__':
     seqs = download_rna3db(2)
