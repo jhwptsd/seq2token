@@ -4,7 +4,7 @@ import pandas as pd
 import torch.nn.functional as F
 import torch
 import numpy as np
-from Bio.PDB import PDBParser
+from Bio.PDB import PDBParser, MMCIFParser
 import os
 
 from bio2token.data.utils.tokens import AA_TO_TOKEN, RNA_TO_TOKEN, BB_CLASS, C_REF_CLASS, SC_CLASS, PAD_CLASS
@@ -298,7 +298,7 @@ def uniform_dataframe(seq, res_types, atom_coords, atom_names, res_atom_start, r
 
 
 def pdb_2_dict(pdb_path: str, chains: List[str] = None):
-    parser = PDBParser()
+    parser = MMCIFParser()
     pdb_ids = []
     pdb_id = os.path.basename(pdb_path).split(".")[0]
     structure = parser.get_structure(pdb_id, pdb_path)
